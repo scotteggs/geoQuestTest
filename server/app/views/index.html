@@ -5,9 +5,6 @@
     <title>GeoQuest</title>
     <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
-
-    <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" /> -->
-    <!-- // <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="/leaflet/dist/leaflet.css" />
     <script src="/leaflet/dist/leaflet.js" />
@@ -62,6 +59,8 @@ function onLocationFound(e) {
     console.log(containingMe, 'containingMe...should be true')
     if(containingMe) {
         imWithin(e)
+    } else {
+        notWithin(e)
     }
 }
 
@@ -69,10 +68,11 @@ map.on('locationfound', onLocationFound);
 
 
 function imWithin(e) {
-    console.log(e, 'e logged from imWithin')
-    alert('you are within the bounds')
+    alert('within bouds')
 }
-
+function notWithin(e) {
+    alert('not within bounds')
+}
 
 
 </script>
