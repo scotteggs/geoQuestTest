@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/" />
+    <title>GeoQuest</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+
+<!--     // <script src="/lodash/index.js"></script>
+    // <script src="/angular/angular.js"></script>
+    // <script src="/angular-animate/angular-animate.js"></script>
+    // <script src="/angular-ui-router/release/angular-ui-router.js"></script>
+    // <script src="/angular-ui-bootstrap/ui-bootstrap.js"></script>
+    // <script src="/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+    // <script src="/socket.io-client/socket.io.js"></script> -->
+    <script src="/main.js"></script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+<script>
+
+var map = L.map('map');
+
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    maxZoom: 18,
+    id: 'scotteggs.o7614jl2',
+    accessToken: 'pk.eyJ1Ijoic2NvdHRlZ2dzIiwiYSI6ImNpaDZoZzhmdjBjMDZ1cWo5aGcyaXlteTkifQ.LZe0-IBRQmZ0PkQBsYIliw'
+}).addTo(map);
+
+
+var polygon = L.polygon([
+    [40.705156, -74.010013],
+    [40.705294, -74.008983],
+    [40.704871, -74.008855],
+    [40.704570, -74.009466]
+]).addTo(map);
+
+
+
+
+map.locate({setView: true, maxZoom: 16});
+
+var myLocation;
+var containingMe;
+
+function onLocationFound(e) {
+    var radius = e.accuracy / 2;
+
+    L.marker(e.latlng).addTo(map)
+        .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+    L.circle(e.latlng, radius).addTo(map);
+    myLocation = [e.latlng.lat,e.latlng.lng]
+    var containingMe = polygon.getBounds().contains(myLocation)
+    console.log(containingMe, 'containingMe...should be true')
+    if(containingMe) {
+        imWithin(e)
+    }
+}
+
+map.on('locationfound', onLocationFound);
+
+
+function imWithin(e) {
+    console.log(e, 'e logged from imWithin')
+    alert('you are within the bounds')
+}
+
+
+
+</script>
+<!-- <body ng-app="FullstackGeneratedApp">
+    <navbar></navbar>
+    <div id="main" ui-view></div>
+</body> -->
+</html>
